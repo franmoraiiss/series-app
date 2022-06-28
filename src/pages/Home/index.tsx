@@ -11,29 +11,21 @@ import {
   Button,
   Stack,
   Wrap,
+  InputGroup,
+  InputRightElement,
+  Input,
+  Tabs,
+  TabList,
+  Divider,
+  TabPanels,
+  Tab,
+  TabPanel,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Carousel } from "react-carousel-minimal";
-import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
-
-// function App() {
+import "../Home/home.css";
 export const Home = () => {
-  // useEffect(() => {
-  //   const element = document.querySelector("#container");
-
-  //   if(element){
-  //     element.addEventListener('wheel', (event) => {
-  //       event.preventDefault();
-
-  //       element.scrollBy({
-  //         left: event.deltaY < 0 ? -30 : 30,
-
-  //       });
-  //     })
-  //   }
-  // }, []);
-
-  // });
+  const [aux, setAux] =useState("Button1");
   const data = [
     {
       image:
@@ -71,10 +63,7 @@ export const Home = () => {
     fontSize: "2em",
     fontWeight: "bold",
   };
-  const slideNumberStyle = {
-    fontSize: "20px",
-    fontWeight: "bold",
-  };
+
   return (
     <Box className="">
       <div style={{ textAlign: "center" }}>
@@ -105,14 +94,12 @@ export const Home = () => {
           templateColumns="repeat(5, 1fr)"
           gap={4}
         >
-          <GridItem colSpan={4} bg="lightgrey">
+          <GridItem colSpan={4} bg="lightgrey" minHeight="300px">
             <Heading>Dashboard</Heading>
           </GridItem>
 
-          <GridItem rowSpan={2} colSpan={1} bg="lightgrey">
-            <Heading as="h4" size="md">
-              Ultimos Lançamentos
-            </Heading>
+          <GridItem rowSpan={2} colSpan={1}>
+            <Heading size="md">Ultimos Lançamentos</Heading>
 
             <Grid
               h="100px"
@@ -120,14 +107,14 @@ export const Home = () => {
               templateRows="repeat(1, 1fr)"
               templateColumns="repeat(5, 1fr)"
               alignItems="center"
-              bg="grey"
+              bg="lightgrey"
               borderRadius="10px"
             >
               <GridItem colSpan={2}>
                 <Image
                   margin="0 auto"
                   borderRadius="10px"
-                  boxSize="50px"
+                  boxSize="70px"
                   src="https://bit.ly/dan-abramov"
                   alt="Dan Abramov"
                 />
@@ -147,14 +134,14 @@ export const Home = () => {
               templateRows="repeat(1, 1fr)"
               templateColumns="repeat(5, 1fr)"
               alignItems="center"
-              bg="grey"
+              bg="lightgrey"
               borderRadius="10px"
             >
               <GridItem colSpan={2}>
                 <Image
                   margin="0 auto"
                   borderRadius="10px"
-                  boxSize="50px"
+                  boxSize="70px"
                   src="https://bit.ly/dan-abramov"
                   alt="Dan Abramov"
                 />
@@ -169,31 +156,179 @@ export const Home = () => {
             </Grid>
           </GridItem>
 
-          <GridItem colSpan={4} bg="lightgrey">
-            <Heading>Ad-Hoc</Heading>
+          <GridItem colSpan={4}>
+            <Box mx="2em">
+              <Heading mb="10px">Ad-Hoc</Heading>
+              <Tabs>
+                <TabList border="none !important">
+                  <Tab
+                    _focus={{
+                      boxShadow: "0 0 0 0",
+                      outline: "0",
+                    }}
+                    // _selected={() => setAux(false) }
+                    border="none !important"
+                  >
+                    <Button
+                      colorScheme="teal"
+                      size="lg"
+                      variant="outline"
+                      onClick={() => {
+                        // setAux("Button1");
+                      }}
+                    >
+                      Button 1
+                    </Button>
+                  </Tab>
+                  <Tab
+                    fontSize="18px"
+                    fontWeight="500"
+                    color="black"
+                    _focus={{
+                      boxShadow: "0 0 0 0",
+                      outline: "0",
+                    }}
+                    _selected={{
+                      color: "#38a169",
+                      borderBlockEnd: "2px solid #38a169",
+                    }}
+                    border="none !important"
+                  >
+                    <Button
+                      colorScheme="teal"
+                      size="lg"
+                      variant="outline"
+                      onClick={() => {
+                        setAux("Button2");
+                      }}
+                    >
+                      Button 2
+                    </Button>
+                  </Tab>
+                </TabList>
+                <TabPanels>
+                  <TabPanel px="0">
+                    <Box display="flex" alignItems="center" width="100%">
+                      <form className="form">
+                        <InputGroup>
+                          <Input
+                            width="100%"
+                            type="tel"
+                            placeholder="Pesquisar Series"
+                            height="60px"
+                          />
+                        </InputGroup>
+                      </form>
+                    </Box>
+                  </TabPanel>
+                  <TabPanel px="0">
+                    <Box display="flex" alignItems="center" width="100%">
+                      <form className="form">
+                        <InputGroup>
+                          <Input
+                            width="100%"
+                            type="tel"
+                            placeholder="Pesquisar Ator"
+                            height="60px"
+                          />
+                        </InputGroup>
+                      </form>
+                    </Box>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
 
-            <Box
-              mt="1rem"
-              align={"center"}
-              justify={"center"}
-              direction={"row"}
-            >
-              <Wrap mt="1rem" justify="center">
-                <Stack spacing={4} direction="row" align="space-between">
-                  <Button colorScheme="teal" size="lg" variant='outline'>
-                    Button
-                  </Button>
-                  <Button colorScheme="teal" size="lg" variant='outline'>
-                    Button
-                  </Button>
-                  <Button colorScheme="teal" size="lg" variant='outline'>
-                    Button
-                  </Button>
-                  <Button colorScheme="teal" size="lg" variant='outline'>
-                    Button
-                  </Button>
-                </Stack>
-              </Wrap>
+              <Box bg="lightgrey" p={3} mt={3}>
+                <Grid
+                  minHeight="300px"
+                  marginTop="20px"
+                  templateRows="repeat(1, 1fr)"
+                  templateColumns="repeat(10, 1fr)"
+                  alignItems="center"
+                  borderRadius="10px"
+                >
+                  <GridItem colSpan={3}>
+                    <Image
+                      margin="0 auto"
+                      borderRadius="10px"
+                      boxSize="100%"
+                      px="5px"
+                      src="https://bit.ly/dan-abramov"
+                      alt="Dan Abramov"
+                    />
+                  </GridItem>
+                  <GridItem colSpan={5} height="100%" px="10px">
+                    <Heading as="h5" size="md">
+                      Notting Hill
+                    </Heading>
+                    <Text fontSize="xs">Premiere in</Text>
+                    <Text fontSize="sm">20 April 2020</Text>
+                  </GridItem>
+                  <GridItem colSpan={2} height="100%" px="10px">
+                    <Text fontSize="xs">Premiere in</Text>
+                  </GridItem>
+                </Grid>
+
+                <Grid
+                  minHeight="300px"
+                  marginTop="20px"
+                  templateRows="repeat(1, 1fr)"
+                  templateColumns="repeat(10, 1fr)"
+                  alignItems="center"
+                  borderRadius="10px"
+                >
+                  <GridItem colSpan={3}>
+                    <Image
+                      margin="0 auto"
+                      borderRadius="10px"
+                      boxSize="100%"
+                      px="5px"
+                      src="https://bit.ly/dan-abramov"
+                      alt="Dan Abramov"
+                    />
+                  </GridItem>
+                  <GridItem colSpan={5} height="100%" px="10px">
+                    <Heading as="h5" size="md">
+                      Notting Hill
+                    </Heading>
+                    <Text fontSize="xs">Premiere in</Text>
+                    <Text fontSize="sm">20 April 2020</Text>
+                  </GridItem>
+                  <GridItem colSpan={2} height="100%" px="10px">
+                    <Text fontSize="xs">Premiere in</Text>
+                  </GridItem>
+                </Grid>
+
+                <Grid
+                  minHeight="300px"
+                  marginTop="20px"
+                  templateRows="repeat(1, 1fr)"
+                  templateColumns="repeat(10, 1fr)"
+                  alignItems="center"
+                  borderRadius="10px"
+                >
+                  <GridItem colSpan={3}>
+                    <Image
+                      margin="0 auto"
+                      borderRadius="10px"
+                      boxSize="100%"
+                      px="5px"
+                      src="https://bit.ly/dan-abramov"
+                      alt="Dan Abramov"
+                    />
+                  </GridItem>
+                  <GridItem colSpan={5} height="100%" px="10px">
+                    <Heading as="h5" size="md">
+                      Notting Hill
+                    </Heading>
+                    <Text fontSize="xs">Premiere in</Text>
+                    <Text fontSize="sm">20 April 2020</Text>
+                  </GridItem>
+                  <GridItem colSpan={2} height="100%" px="10px">
+                    <Text fontSize="xs">Premiere in</Text>
+                  </GridItem>
+                </Grid>
+              </Box>
             </Box>
           </GridItem>
         </Grid>

@@ -1,3 +1,37 @@
-  .form{
-    width: 100%;
+  /* .form{
+    width: 100% !important;
+  } */
+
+
+  Input{
+    width: 190px !important;
+    margin: 10px !important;
   }
+
+  #Button{
+    margin-left: 10px !important;
+  }
+
+  Select{
+    width: 190px !important;
+    height: 60px;
+  }
+
+  .chakra-select__wrapper{
+    width: 190px !important;
+    margin: 10px !important;
+    display: inline;
+  }
+
+  .Checkbox{
+    /* width: 0px !important; */
+    margin: 10px;
+    padding: 10px;
+  }
+  /* #teste{
+    position: relative;
+    display: inline;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 180px !important;
+  } */

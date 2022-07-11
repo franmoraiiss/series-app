@@ -1,7 +1,7 @@
 import { Routes, Route} from "react-router-dom";
+import { Main } from "./pages/Home";
 
 import Pagina404 from "./pages/Page404";
-import { Home } from "./pages/Home";
 
 
 export function Routess() {
@@ -10,9 +10,9 @@ export function Routess() {
     
     <Routes>
       
-      <Route path="/" element={ <Home />} />
+      <Route path="/" element={ <Main />} />
 
-      <Route path="/home" element={<Home />} />
+      <Route path="/home" element={<Main/>} />
 
       <Route path="*" element={<Pagina404 />} />
 

@@ -31,6 +31,7 @@ import {
 } from "@chakra-ui/react";
 import { FormEvent, useEffect, useState } from "react";
 import { Carousel } from "react-carousel-minimal";
+import api from "../../../services/axios";
 import "../home.css";
 
 interface Data {
@@ -42,6 +43,18 @@ interface MainSerieProps {
   pageSerie: (value: boolean) => void;
   serieId: (value: string) => void;
   seriePhoto: (value: string) => void;
+}
+
+interface Serie {
+  id_series: number;
+  nome: string;
+  nota: number;
+  pais_origem: string;
+  imagem: string;
+  em_producao: boolean;
+  descricao: string;
+  data_lancamento: string;
+  temporadas?: any[];
 }
 
 export const Home: React.FC<MainSerieProps> = ({
@@ -93,7 +106,9 @@ export const Home: React.FC<MainSerieProps> = ({
   const [lugarNascimentoAtorField, setlugarNascimentoAtorField] = useState<boolean>(false);
   const [popularidadeAtorField, setpopularidadeAtorField] =  useState<boolean>(false);
   const [nomePersonagemField, setnomePersonagemField] = useState<boolean>(false);
-  const [nomeSerie2Field, setnomeSerie2Field] = useState<boolean>(false);
+  const [nomeSerie2Field, setnomeSerie2Field] = useState<boolean>(false);  
+
+  const [series, setSeries] = useState<Serie[]>();  
 
   const data = [
     {
@@ -168,6 +183,29 @@ export const Home: React.FC<MainSerieProps> = ({
     fontSize: "2em",
     fontWeight: "bold",
   };
+
+  const handleSearchSerie = async () => { 
+    try {
+      const { data } = await api.post('/series', 
+        {
+          name: nomeSerie || undefined,
+          character: nomePersonagem || undefined,
+          actor: nomeAtor || undefined,
+          rating: notaSerie || undefined,
+          release_date: dataLancamentoSerie || undefined,
+          country: paisOrigemSerie || undefined,
+          name_creator: criadorSerie || undefined,
+          number_season: Number(numeroTemporadas) || undefined,
+          in_production: produzindoSerie,
+        }
+      );          
+
+      if(data) setSeries(data);
+    } catch(err) {
+      console.log(err);
+    }
+
+  }  
 
   return (
     <Box className="">
@@ -546,6 +584,7 @@ export const Home: React.FC<MainSerieProps> = ({
                             type="submit"
                             value="submit"
                             id="Button"
+                            onClick={() => handleSearchSerie()}
                           >
                             Pesquisar
                           </Button>
@@ -555,43 +594,39 @@ export const Home: React.FC<MainSerieProps> = ({
                     <Box p={3} mt={3}>
                       <Table bg="whitesmoke" variant="simple">
                         <Thead bg="lightgrey">
-                          <Tr>
-                            <Th>Conta</Th>
-                            <Th>Metodos</Th>
-                            <Th>
-                              <Text textAlign="center">Ações</Text>
-                            </Th>
-                          </Tr>
+                          <Th>Nome</Th>
+                          <Th>Nota</Th>
+                          <Th>
+                            <Text textAlign="center">Ações</Text>
+                          </Th>
                         </Thead>
                         <Tbody>
-                          {account.map((elem: Data, i: number) => {
-                            return (
-                              <Tr key={i}>
-                                <Td>{elem.image}</Td>
-                                <Td>{elem.caption}</Td>
-                                <Td>
-                                  <Box
-                                    display="flex"
-                                    justifyContent="space-evenly"
+                          {series?.map((serie, index) => (
+                            <Tr key={index}>
+                              <Td>{serie.nome}</Td>
+                              <Td>{serie.nota}</Td>
+                              <Td>
+                                <Box
+                                  display="flex"
+                                  justifyContent="space-evenly"
+                                >
+                                  <Button
+                                    size="xs"
+                                    variant="outline"
+                                    onClick={() => {
+                                      pageSerie(true);
+                                      serieId("Esquadrão suicida");
+                                      seriePhoto(
+                                        "https://indutalks.com.br/wp-content/uploads/2021/04/o-esquadrao-suicida-11.jpg"
+                                      );
+                                    }}
                                   >
-                                    <Button
-                                      size="xs"
-                                      variant="outline"
-                                      onClick={() => {
-                                        pageSerie(true);
-                                        serieId("Esquadrão suicida");
-                                        seriePhoto(
-                                          "https://indutalks.com.br/wp-content/uploads/2021/04/o-esquadrao-suicida-11.jpg"
-                                        );
-                                      }}
-                                    >
-                                      Ir
-                                    </Button>
-                                  </Box>
-                                </Td>
-                              </Tr>
-                            );
-                          })}
+                                    Ir
+                                  </Button>
+                                </Box>
+                              </Td>
+                            </Tr>
+                          ))}
                         </Tbody>
                       </Table>
                     </Box>

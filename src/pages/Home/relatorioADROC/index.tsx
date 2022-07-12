@@ -57,6 +57,39 @@ interface Serie {
   temporadas?: any[];
 }
 
+const data_inicial = [
+  {
+    image:
+      "https://images.hdqwalls.com/wallpapers/wonder-woman-1984-movie-year-7a.jpg",
+    caption: "Wonder Woman 1984",
+  },
+  {
+    image:
+      "https://www.blogs.unicamp.br/ciencianerd/wp-content/uploads/sites/113/2019/07/homem-aranha-wallpaper.jpg",
+    caption: "Homem Aranha 1",
+  },
+  {
+    image:
+      "https://images.hdqwalls.com/wallpapers/wonder-woman-1984-movie-year-7a.jpg",
+    caption: "Wonder Woman 1984",
+  },
+  {
+    image:
+      "https://www.blogs.unicamp.br/ciencianerd/wp-content/uploads/sites/113/2019/07/homem-aranha-wallpaper.jpg",
+    caption: "Homem Aranha 1",
+  },
+  {
+    image:
+      "https://images.hdqwalls.com/wallpapers/wonder-woman-1984-movie-year-7a.jpg",
+    caption: "Wonder Woman 1984",
+  },
+  {
+    image:
+      "https://www.blogs.unicamp.br/ciencianerd/wp-content/uploads/sites/113/2019/07/homem-aranha-wallpaper.jpg",
+    caption: "Homem Aranha 1",
+  },
+];
+
 export const Home: React.FC<MainSerieProps> = ({
   pageSerie,
   serieId,
@@ -64,6 +97,9 @@ export const Home: React.FC<MainSerieProps> = ({
 }: MainSerieProps): React.ReactElement => {
   const [aux, setAux] = useState("Button1");
   const [account, setAccount] = useState<Data[]>([]);
+  const [data, setData] = useState(data_inicial);
+
+  const [take, setTake] = useState(100);
 
   const [nomeSerie, setnomeSerie] = useState<string>("");
   const [nomePersonagem, setnomePersonagem] = useState<string>("");
@@ -110,38 +146,7 @@ export const Home: React.FC<MainSerieProps> = ({
 
   const [series, setSeries] = useState<Serie[]>();  
 
-  const data = [
-    {
-      image:
-        "https://images.hdqwalls.com/wallpapers/wonder-woman-1984-movie-year-7a.jpg",
-      caption: "Wonder Woman 1984",
-    },
-    {
-      image:
-        "https://www.blogs.unicamp.br/ciencianerd/wp-content/uploads/sites/113/2019/07/homem-aranha-wallpaper.jpg",
-      caption: "Homem Aranha 1",
-    },
-    {
-      image:
-        "https://images.hdqwalls.com/wallpapers/wonder-woman-1984-movie-year-7a.jpg",
-      caption: "Wonder Woman 1984",
-    },
-    {
-      image:
-        "https://www.blogs.unicamp.br/ciencianerd/wp-content/uploads/sites/113/2019/07/homem-aranha-wallpaper.jpg",
-      caption: "Homem Aranha 1",
-    },
-    {
-      image:
-        "https://images.hdqwalls.com/wallpapers/wonder-woman-1984-movie-year-7a.jpg",
-      caption: "Wonder Woman 1984",
-    },
-    {
-      image:
-        "https://www.blogs.unicamp.br/ciencianerd/wp-content/uploads/sites/113/2019/07/homem-aranha-wallpaper.jpg",
-      caption: "Homem Aranha 1",
-    },
-  ];
+  
 
   function Buscar(event: FormEvent) {
     event.preventDefault();
@@ -197,6 +202,7 @@ export const Home: React.FC<MainSerieProps> = ({
           name_creator: criadorSerie || undefined,
           number_season: Number(numeroTemporadas) || undefined,
           in_production: produzindoSerie,
+          take,
         }
       );          
 
@@ -209,16 +215,15 @@ export const Home: React.FC<MainSerieProps> = ({
 
   return (
     <Box className="">
-      <div style={{ textAlign: "center" }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width:"100%", backgroundColor: "#F4EEF0" }}>
         <Carousel
           data={data}
           time={4000}
-          width="100%"
-          height="400px"
+          // width="100%"
+          height="500px"
           captionStyle={captionStyle}
           radius="0px 0px 20px 20px"
-          captionPosition="bottom"
-          automatic={true}
+          captionPosition="bottom"          
           dots={true}
           pauseIconColor="white"
           pauseIconSize="40px"
@@ -323,7 +328,7 @@ export const Home: React.FC<MainSerieProps> = ({
                       Series
                     </Button>
                   </Tab>
-                  <Tab
+                  {/* <Tab
                     fontSize="18px"
                     fontWeight="500"
                     color="black"
@@ -347,7 +352,7 @@ export const Home: React.FC<MainSerieProps> = ({
                     >
                       Atores
                     </Button>
-                  </Tab>
+                  </Tab> */}
                 </TabList>
                 <TabPanels>
                   <TabPanel px="0">
@@ -437,6 +442,16 @@ export const Home: React.FC<MainSerieProps> = ({
                         >
                           Em produção
                         </Checkbox>
+                        <div>
+                        Quantidade de resultados para trazer:
+                        <Input 
+                          type="text"
+                          height="60px"
+                          value={take}
+                          onChange={(event) => setTake(Number(event.target.value))}
+                          placeholder="Quantidade de resultados a trazer"
+                        />
+                        </div>
                         <Heading mt="30px" mb="10px" size="lg">
                           Campos
                         </Heading>
@@ -592,19 +607,35 @@ export const Home: React.FC<MainSerieProps> = ({
                       </form>
                     </Box>
                     <Box p={3} mt={3}>
-                      <Table bg="whitesmoke" variant="simple">
+                      {series && <Table bg="whitesmoke" variant="simple">
                         <Thead bg="lightgrey">
-                          <Th>Nome</Th>
-                          <Th>Nota</Th>
-                          <Th>
-                            <Text textAlign="center">Ações</Text>
-                          </Th>
+                          {nomeSerieField && (<Th>Nome</Th>)}
+                          {notaSerieField && (<Th>Nota</Th>)}
+                          {descricaoSerieField && (<Th>Descrição</Th>)}
+                          {numeroTemporadasField && (<Th>Quant. temporadas</Th>)}
+                          {paisOrigemSerieField && (<Th>País Origem</Th>)}
+                          {dataLancamentoSerieField && (<Th>Data Lançamento</Th>)}
+                          {series && (
+                            <>
+                              <Th>
+                                <Text textAlign="center">Capa da série</Text>
+                              </Th>
+                              <Th>
+                                <Text textAlign="center">Informações</Text>
+                              </Th>
+                            </>
+                          )}
+                          
                         </Thead>
                         <Tbody>
                           {series?.map((serie, index) => (
                             <Tr key={index}>
-                              <Td>{serie.nome}</Td>
-                              <Td>{serie.nota}</Td>
+                              {nomeSerieField && (<Td>{serie.nome}</Td>)}
+                              {notaSerieField && (<Td>{serie.nota}</Td>)}
+                              {descricaoSerieField && (<Td>{serie.descricao}</Td>)}
+                              {numeroTemporadasField && (<Td>{serie.temporadas?.length}</Td>)}
+                              {paisOrigemSerieField && (<Td>{serie.pais_origem}</Td>)}
+                              {dataLancamentoSerieField && (<Td>{new Date(serie.data_lancamento).toLocaleDateString()}</Td>)}                              
                               <Td>
                                 <Box
                                   display="flex"
@@ -614,11 +645,24 @@ export const Home: React.FC<MainSerieProps> = ({
                                     size="xs"
                                     variant="outline"
                                     onClick={() => {
-                                      pageSerie(true);
-                                      serieId("Esquadrão suicida");
-                                      seriePhoto(
-                                        "https://indutalks.com.br/wp-content/uploads/2021/04/o-esquadrao-suicida-11.jpg"
-                                      );
+                                      window.open( `https://image.tmdb.org/t/p/w500/${serie.imagem}`, '_blank');
+                                      setData([{ image: `https://image.tmdb.org/t/p/w500/${serie.imagem}`, caption: serie.nome }]);
+                                    }}
+                                  >
+                                    Capa da série
+                                  </Button>
+                                </Box>
+                              </Td>
+                              <Td>
+                                <Box
+                                  display="flex"
+                                  justifyContent="space-evenly"
+                                >
+                                  <Button
+                                    size="xs"
+                                    variant="outline"
+                                    onClick={() => {
+                                      window.open( `https://www.themoviedb.org/tv/${serie.id_series}`, '_blank');
                                     }}
                                   >
                                     Ir
@@ -628,7 +672,7 @@ export const Home: React.FC<MainSerieProps> = ({
                             </Tr>
                           ))}
                         </Tbody>
-                      </Table>
+                      </Table>}
                     </Box>
                   </TabPanel>
                   <TabPanel px="0">
